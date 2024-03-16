@@ -10,11 +10,11 @@ const userSchema = new mongoose.Schema({
       unique: true,
     },
     lowercase: true,
-    require: true,
+    required: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
 });
 
@@ -31,5 +31,9 @@ userSchema.pre("save", async function (next) {
     throw new Error("Hash failed");
   }
 });
+
+userSchema.methods.comparePassword = async function (clientPassword) {
+  return await bcrypt.compare(clientPassword, this.password);
+};
 
 export const User = mongoose.model("User", userSchema);

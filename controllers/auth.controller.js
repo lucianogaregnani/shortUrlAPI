@@ -1,8 +1,22 @@
 import { User } from "../models/index.js";
 
-export const login = (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
-  res.status(200).json({ email, password });
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(403).json({ error: "User doesn't exist" });
+
+    const isValidPassword = await user.comparePassword(password);
+
+    if (!isValidPassword)
+      return res.status(403).json({ error: "Enter a valid password" });
+
+    return res.status(200).json({ user, isValidPassword });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
 };
 
 export const register = async (req, res) => {
