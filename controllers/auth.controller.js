@@ -1,4 +1,5 @@
 import { User } from "../models/index.js";
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -13,7 +14,9 @@ export const login = async (req, res) => {
     if (!isValidPassword)
       return res.status(403).json({ error: "Enter a valid password" });
 
-    return res.status(200).json({ user, isValidPassword });
+    const token = jwt.sign({ uid: user.id }, process.env.JWT_SECRET);
+
+    return res.status(200).json({ token });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
