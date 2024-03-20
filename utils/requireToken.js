@@ -18,9 +18,11 @@ export const requireToken = (req, res, next) => {
 
 export const requireRefreshToken = (req, res, next) => {
   try {
-    const refreshToken = req.cookie.refreshToken;
+    const refreshToken = req.cookies.refreshToken;
 
-    jwt.verify(refreshToken, process.env.JWT_REFRESH);
+    const { uid } = jwt.verify(refreshToken, process.env.JWT_REFRESH);
+
+    req.uid = uid;
 
     next();
   } catch (error) {

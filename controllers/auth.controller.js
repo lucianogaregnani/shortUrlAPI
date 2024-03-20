@@ -58,3 +58,25 @@ export const infoUser = async (req, res) => {
     return res.status(404).json({ error: error.message });
   }
 };
+
+export const token = (req, res) => {
+  try {
+    const { token, expiresIn } = generateToken(req.uid);
+
+    if (!token) throw new Error("Token error");
+
+    return res.status(200).json({ token, expiresIn });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const logout = (req, res) => {
+  try {
+    req.clearCookies("refreshToken");
+
+    return res.status(200).json({ ok: true });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
