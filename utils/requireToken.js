@@ -15,3 +15,15 @@ export const requireToken = (req, res, next) => {
     return res.status(400).json({ error: error.message });
   }
 };
+
+export const requireRefreshToken = (req, res, next) => {
+  try {
+    const refreshToken = req.cookie.refreshToken;
+
+    jwt.verify(refreshToken, process.env.JWT_REFRESH);
+
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: error.message });
+  }
+};

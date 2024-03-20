@@ -1,6 +1,6 @@
 import { User } from "../models/index.js";
 import jwt from "jsonwebtoken";
-import { generateToken } from "../utils/generateToken.js";
+import { generateRefreshToken, generateToken } from "../utils/generateToken.js";
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -16,6 +16,7 @@ export const login = async (req, res) => {
       return res.status(403).json({ error: "Enter a valid password" });
 
     const { token, expiresIn } = generateToken(user.id);
+    generateRefreshToken(user.id, res);
 
     return res.status(200).json({ token, expiresIn });
   } catch (error) {
