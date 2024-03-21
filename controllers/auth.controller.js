@@ -1,5 +1,4 @@
-import { User } from "../models/index.js";
-import jwt from "jsonwebtoken";
+import { User } from "../models/User.js";
 import { generateRefreshToken, generateToken } from "../utils/generateToken.js";
 
 export const login = async (req, res) => {
