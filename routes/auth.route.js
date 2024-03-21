@@ -14,7 +14,7 @@ import { requireRefreshToken } from "../utils/requireToken.js";
 
 export const authRouter = express.Router();
 
-authRouter.post("/register", registerValidation, validationErrors, register);
+authRouter.post("/register", registerValidation, register);
 
 authRouter.post("/login", login);
 

@@ -7,6 +7,7 @@ import {
   removeLink,
   updateLink,
 } from "../controllers/link.controller.js";
+import { paramValidator } from "../middlewares/auth.middleware.js";
 
 export const linkRouter = express.Router();
 
@@ -16,6 +17,6 @@ linkRouter.get("/:shortLink", getByShortLink);
 
 linkRouter.post("/", requireToken, createLink);
 
-linkRouter.patch("/:id", requireToken, updateLink);
+linkRouter.patch("/:id", paramValidator, requireToken, updateLink);
 
-linkRouter.delete("/:id", requireToken, removeLink);
+linkRouter.delete("/:id", paramValidator, requireToken, removeLink);
