@@ -12,7 +12,7 @@ const whiteList = [process.env.ORIGIN, process.env.ORIGIN2];
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (whiteList.includes(origin)) return callback(null, origin);
+      if (!origin || whiteList.includes(origin)) return callback(null, origin);
       return callback("CORS Error");
     },
   })
