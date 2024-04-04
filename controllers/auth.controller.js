@@ -42,7 +42,7 @@ export const register = async (req, res) => {
 
     return res.status(200).json({ user });
   } catch (error) {
-    return res.status(200).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 };
 
@@ -72,7 +72,8 @@ export const token = (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    req.clearCookies("refreshToken");
+    console.log({ req, res });
+    res.clearCookie("refreshToken");
 
     return res.status(200).json({ ok: true });
   } catch (error) {

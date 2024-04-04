@@ -15,6 +15,7 @@ app.use(
       if (!origin || whiteList.includes(origin)) return callback(null, origin);
       return callback("CORS Error");
     },
+    credentials: true,
   })
 );
 

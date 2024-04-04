@@ -21,7 +21,7 @@ export const getByShortLink = async (req, res) => {
 
     if (!link) throw new Error("The link don't exist");
 
-    return res.status(200).json({ longLink: link.longLink });
+    return res.status(200).json(link);
   } catch (error) {
     return res.status(404).json({ error: error.message });
   }
@@ -52,12 +52,16 @@ export const updateLink = async (req, res) => {
     const { longLink } = req.body;
     const { id } = req.params;
 
+    if (!validateUrl(longLink)) throw new Error("Invalid link");
+
     let link = await Link.findById(id);
 
     if (!link) throw new Error("The link don't exist");
     if (!link.user.equals(req.uid)) throw new Error("Unauthorized");
 
-    link = await Link.updateOne({ longLink });
+    link.longLink = longLink;
+
+    await link.save();
 
     return res.status(200).json({ modified: true });
   } catch (error) {
