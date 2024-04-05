@@ -20,6 +20,8 @@ export const generateRefreshToken = (uid, res) => {
       expiresIn,
     });
 
+    console.log(!(process.env.MODO === "developer"));
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: !(process.env.MODO === "developer"),
